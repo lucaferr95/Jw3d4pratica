@@ -1,3 +1,6 @@
+package Dao;
+
+import Entities.Evento;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -13,7 +16,7 @@ public class EventoDAO {
 
      //Metodo per aggiungere uno studente
 
-    public void creaevento(Eventi evento) {
+    public void creaEvento(Evento evento) {
         em.getTransaction().begin();
         em.persist(evento);
         em.getTransaction().commit();
@@ -22,15 +25,15 @@ public class EventoDAO {
 
     //Metodo getbyid
 
-    public Eventi getById(int id) {
-        return em.find(Eventi.class, id);
+    public Evento getById(int id) {
+        return em.find(Evento.class, id);
     }
 
     //metodo remove
 
-    public void remove(Eventi eventi) {
+    public void remove(Evento evento) {
         //se non trova uno studente ritornerà null
-        Eventi ev= getById(eventi.getId());
+        Evento ev= getById(evento.getId());
 
         if(ev!=null) {
             em.getTransaction().begin();

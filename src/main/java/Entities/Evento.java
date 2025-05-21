@@ -1,38 +1,38 @@
 package Entities;
 
-import Entities.Persona;
 import Enumeration.tipoEvento;
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.ArrayList;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class Eventi {
+public class Evento {
+
     @Id
     private int id;
+
     private String titolo;
     private LocalDate dataEvento;
     private String descrizione;
 
+    @OneToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
+
     @Column(length = 13)
     private int maxInvitati;
 
-    @Enumerated (EnumType.STRING)
-    tipoEvento tipoEvento;
+    @Enumerated(EnumType.STRING)
+    private tipoEvento tipoEvento;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Persona> personaList = new ArrayList<>();
+    @OneToMany(mappedBy = "ev", cascade = CascadeType.ALL)
+    private List<Partecipazione> partecipazioneList = new ArrayList<>();
 
-    public Eventi() {}
+    public Evento() {}
 
-    public Eventi(int maxInvitati) {
-
-        this.maxInvitati = maxInvitati;
-    }
-
-    public Eventi(int id, String titolo, LocalDate dataEvento, String descrizione, int maxInvitati, tipoEvento tipoEvento) {
+    public Evento(int id, String titolo, LocalDate dataEvento, String descrizione, int maxInvitati, tipoEvento tipoEvento) {
         this.id = id;
         this.titolo = titolo;
         this.dataEvento = dataEvento;
@@ -40,6 +40,8 @@ public class Eventi {
         this.maxInvitati = maxInvitati;
         this.tipoEvento = tipoEvento;
     }
+
+    // Getter e Setter
 
     public int getId() {
         return id;
@@ -88,43 +90,34 @@ public class Eventi {
     public void setTipoEvento(tipoEvento tipoEvento) {
         this.tipoEvento = tipoEvento;
     }
-    public void aggiungiInvitato(Invitato invitato) {
-        if (invitati.size() < maxInvitati) {
-            invitati.add(invitato);
-        } else {
-            System.out.println("Raggiunto il numero massimo di invitati.");
-        }
-    }
-    public void rimuoviInvitatoPerNome(String nome) {
-        boolean rimosso = invitati.removeIf(i -> i.getNome().equalsIgnoreCase(nome));
-        if (rimosso) {
-            System.out.println(nome + " rimosso");
-        } else {
-            System.out.println(nome + " non trovato nella lista degli invitati.");
-        }
+
+    public Location getLocation() {
+        return location;
     }
 
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
+    public List<Partecipazione> getPartecipazioneList() {
+        return partecipazioneList;
+    }
 
+    public void setPartecipazioneList(List<Partecipazione> partecipazioneList) {
+        this.partecipazioneList = partecipazioneList;
+    }
 
     @Override
     public String toString() {
-        return "Eventi{" +
+        return "Evento{" +
                 "id=" + id +
                 ", titolo='" + titolo + '\'' +
                 ", dataEvento=" + dataEvento +
                 ", descrizione='" + descrizione + '\'' +
                 ", maxInvitati=" + maxInvitati +
                 ", tipoEvento=" + tipoEvento +
-                ", invitati=" + invitati +
+                ", location=" + location +
+                ", partecipazioni=" + partecipazioneList +
                 '}';
     }
-
-    public List<Persona> getInvitati() {
-        return invitati;
-    }
-
-    public void setInvitati(List<Persona> invitati) {
-    }
 }
-

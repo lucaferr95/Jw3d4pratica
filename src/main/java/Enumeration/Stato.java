@@ -1,4 +1,4 @@
 package Enumeration;
 
-public enum Stato {
+public enum Stato { CONFERMATO, DA_CONFERMARE
 }
