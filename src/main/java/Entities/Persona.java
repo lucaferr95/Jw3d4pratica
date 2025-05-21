@@ -7,12 +7,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name="persone")
 public class Persona {
     @Id
+    @GeneratedValue
     private int id;
     private String nome;
     private String cognome;
     private String email;
+    @Column(name  ="dataNascita")
     private LocalDate dataNascita;
 
     @Enumerated(EnumType.STRING)
@@ -22,16 +25,17 @@ public class Persona {
     private List<Partecipazione> partecipazioniList;
 
 
+
     public Persona() {}
 
-    public Persona(int id, String nome, String cognome, String email, LocalDate dataNascita, Sesso sesso, List<Partecipazione> partecipazioniList) {
-        this.id = id;
+    public Persona(String nome, String cognome, String email, LocalDate dataNascita, Sesso sesso) {
+
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.dataNascita = dataNascita;
         this.sesso = sesso;
-        this.partecipazioniList = partecipazioniList;
+
     }
 
     public int getId() {

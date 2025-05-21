@@ -7,25 +7,27 @@ import jakarta.persistence.*;
 
 public class Partecipazione {
     @Id
+    @GeneratedValue
     private int id;
 
 
     @ManyToOne
     @JoinColumn(name = "evento_id")
-    private Evento ev;
+    private Evento evento;
 
     @Enumerated(EnumType.STRING)
     private Stato stato;
 
     @ManyToOne
-    @JoinColumn(name= "persona_id")
-    private Persona p;
+    @JoinColumn(name = "persona_id")
+    private Persona persona;
 
-    public Partecipazione(){}
-    public Partecipazione(int id, Persona p, Evento ev, Stato stato) {
-        this.id = id;
-        this.p = p;
-        this.ev = ev;
+    public Partecipazione() {
+    }
+
+    public Partecipazione(Stato stato) {
+
+
         this.stato = stato;
     }
 
@@ -37,20 +39,20 @@ public class Partecipazione {
         this.id = id;
     }
 
-    public Persona getP() {
-        return p;
+    public Persona getPersona() {
+        return persona;
     }
 
-    public void setP(Persona p) {
-        this.p = p;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
-    public Evento getEv() {
-        return ev;
+    public Evento getEvento() {
+        return evento;
     }
 
-    public void setEv(Evento ev) {
-        this.ev = ev;
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
 
     public Stato getStato() {
@@ -65,9 +67,12 @@ public class Partecipazione {
     public String toString() {
         return "Partecipazione{" +
                 "id=" + id +
-                ", p=" + p +
-                ", ev=" + ev +
+                ", evento=" + evento +
                 ", stato=" + stato +
+                ", persona=" + persona +
                 '}';
     }
+
+
+
 }

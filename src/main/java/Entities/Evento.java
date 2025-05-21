@@ -11,6 +11,7 @@ import java.util.List;
 public class Evento {
 
     @Id
+    @GeneratedValue
     private int id;
 
     private String titolo;
@@ -27,13 +28,13 @@ public class Evento {
     @Enumerated(EnumType.STRING)
     private tipoEvento tipoEvento;
 
-    @OneToMany(mappedBy = "ev", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private List<Partecipazione> partecipazioneList = new ArrayList<>();
 
     public Evento() {}
 
-    public Evento(int id, String titolo, LocalDate dataEvento, String descrizione, int maxInvitati, tipoEvento tipoEvento) {
-        this.id = id;
+    public Evento(String titolo, LocalDate dataEvento, String descrizione, int maxInvitati, tipoEvento tipoEvento) {
+
         this.titolo = titolo;
         this.dataEvento = dataEvento;
         this.descrizione = descrizione;

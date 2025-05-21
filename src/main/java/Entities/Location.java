@@ -1,6 +1,7 @@
 package Entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 
@@ -10,13 +11,14 @@ import java.util.List;
 
 public class Location {
     @Id
+    @GeneratedValue
     private int id;
     private String nome;
     private String citta;
 
     public Location(){}
-    public Location(int id, String nome, String citta) {
-        this.id = id;
+    public Location(String nome, String citta) {
+
         this.nome = nome;
         this.citta = citta;
     }
