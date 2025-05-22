@@ -6,9 +6,11 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_evento", discriminatorType = DiscriminatorType.STRING)
 
 @Entity
-public class Evento {
+public abstract class Evento {
 
     @Id
     @GeneratedValue

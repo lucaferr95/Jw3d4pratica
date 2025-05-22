@@ -2,15 +2,15 @@ import Dao.EventoDAO;
 import Dao.LocationDAO;
 import Dao.PartecipazioneDAO;
 import Dao.PersonaDAO;
-import Entities.Evento;
-import Entities.Location;
-import Entities.Partecipazione;
-import Entities.Persona;
+import Entities.*;
+import Enumeration.Genere;
 import Enumeration.Sesso;
-import Enumeration.Stato;
+import Entities.Concerto;
 import Enumeration.tipoEvento;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,22 +18,6 @@ public class Main {
         PersonaDAO personaDAO = new PersonaDAO();
         PartecipazioneDAO partecipazioneDAO = new PartecipazioneDAO();
         LocationDAO locationDAO = new LocationDAO();
-
-        Evento funeral = new Evento(
-                "MyFuneral",
-                LocalDate.of(2028, 8, 22),
-                "Ultimo saluto a Luca",
-                15,
-                tipoEvento.PRIVATO
-        );
-        eventoDAO.creaEvento(funeral);
-
-        Location cimitero = new Location("Cimitero del Verano", "Roma");
-        locationDAO.aggLocation(cimitero);
-
-        funeral.setLocation(cimitero);
-        eventoDAO.creaEvento(funeral);
-
         Persona marco = new Persona("Marco", "Verdi", "marco@email.com", LocalDate.of(1990, 1, 1), Sesso.M);
         Persona pier = new Persona("Pier", "Bianchi", "pier@email.com", LocalDate.of(1989, 5, 20), Sesso.M);
         Persona ioan = new Persona("Ioan", "Rossi", "ioan@email.com", LocalDate.of(1992, 11, 3), Sesso.M);
@@ -41,6 +25,7 @@ public class Main {
         Persona jaslin = new Persona("Jaslin", "Kaur", "jaslin@email.com", LocalDate.of(1996, 6, 15), Sesso.F);
         Persona vincenzo = new Persona("Vincenzo", "De Luca", "vincenzo@email.com", LocalDate.of(1980, 3, 8), Sesso.M);
         Persona topoGigio = new Persona("Topo", "Gigio", "gigio@email.com", LocalDate.of(1960, 12, 1), Sesso.M);
+
 
         personaDAO.aggPersona(marco);
         personaDAO.aggPersona(pier);
@@ -50,39 +35,47 @@ public class Main {
         personaDAO.aggPersona(vincenzo);
         personaDAO.aggPersona(topoGigio);
 
-        Partecipazione part1 = new Partecipazione(Stato.CONFERMATO);
-        part1.setEvento(funeral);
-        part1.setPersona(marco);
-        partecipazioneDAO.aggPartecipazione(part1);
+        Location SanSiro = new Location("San Siro", "Milano");
+        locationDAO.aggLocation(SanSiro);
 
-        Partecipazione part2 = new Partecipazione(Stato.CONFERMATO);
-        part2.setEvento(funeral);
-        part2.setPersona(pier);
-        partecipazioneDAO.aggPartecipazione(part2);
+        Concerto concerto= new Concerto("Marco Mengoni", LocalDate.of(2025, 6, 30),
+                "Concerto Marco", 100000, tipoEvento.PUBBLICO, true, Genere.POP   );
+        eventoDAO.creaEvento(concerto);
 
-        Partecipazione part3 = new Partecipazione(Stato.CONFERMATO);
-        part3.setEvento(funeral);
-        part3.setPersona(ioan);
-        partecipazioneDAO.aggPartecipazione(part3);
+        Concerto concerto2= new Concerto("Adele", LocalDate.of(2025, 6, 30),
+                "Concerto Adele", 300000, tipoEvento.PUBBLICO, true, Genere.POP   );
+        eventoDAO.creaEvento(concerto);
 
-        Partecipazione part4 = new Partecipazione(Stato.CONFERMATO);
-        part4.setEvento(funeral);
-        part4.setPersona(silvia);
-        partecipazioneDAO.aggPartecipazione(part4);
 
-        Partecipazione part5 = new Partecipazione(Stato.DA_CONFERMARE);
-        part5.setEvento(funeral);
-        part5.setPersona(jaslin);
-        partecipazioneDAO.aggPartecipazione(part5);
+        PartitaDiCalcio champions= new PartitaDiCalcio("Inter vs PSG", LocalDate.of(2025, 5, 30) ,
+                "COMPLIMENTI ALL'INTER PER LA COPPA", 10000, tipoEvento.PUBBLICO, "Inter",
+                "PSG", "Inter", 6, 1);
+        eventoDAO.creaEvento(champions);
 
-        Partecipazione part6 = new Partecipazione(Stato.CONFERMATO);
-        part6.setEvento(funeral);
-        part6.setPersona(vincenzo);
-        partecipazioneDAO.aggPartecipazione(part6);
+        Set<Persona> atleti = new HashSet<>();
+        atleti.add(marco);
+        atleti.add(pier);
+        atleti.add(ioan);
 
-        Partecipazione part7 = new Partecipazione(Stato.CONFERMATO);
-        part7.setEvento(funeral);
-        part7.setPersona(topoGigio);
-        partecipazioneDAO.aggPartecipazione(part7);
+
+        GaraDiAtletica gara = new GaraDiAtletica(
+                "Corsa a chi cade prima malato",
+                LocalDate.of(2025, 5, 5),
+                "Gara a chi perde prima la salute col backend",
+                40,
+                tipoEvento.PUBBLICO,
+                atleti,
+                ioan
+        );
+        eventoDAO.creaEvento(gara);
+
+        System.out.println("\nConcerti in streaming:");
+        eventoDAO.getConcertiInStreaming(true).forEach(System.out::println);
+
+        System.out.println("\nConcerti POP:");
+        eventoDAO.getConcertiPerGenere(Genere.POP).forEach(System.out::println);
+
+
+
     }
 }
